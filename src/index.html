@@ -7,6 +7,10 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>Buscador Anime</title>
+    <script
+      src="https://kit.fontawesome.com/b1247d4d30.js"
+      crossorigin="anonymous"
+    ></script>
     <link
       rel="stylesheet"
       href="./scss/main.scss"
@@ -25,9 +29,16 @@
         />
         <button class="js-search-btn">Buscar</button>
         <!-- <button>Reset</button> -->
+        <!-- <i class="fa-regular fa-circle-xmark"></i> -->
       </form>
-      <section class="js-favs-container"></section>
-      <section class="js-search-container"></section>
+      <section class="js-favs-section">
+        <h2>Animes Favoritos</h2>
+        <div class="js-favs-container"></div>
+      </section>
+      <section class="js-search-container">
+        <h2>Resultados</h2>
+        <div class="js-cards-container"></div>
+      </section>
     </main>
     <script src="./js/main.js"></script>
   </body>
