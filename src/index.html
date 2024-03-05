@@ -6,18 +6,27 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-    <title>Paletas</title>
-    <link
-      rel="stylesheet"
-      href="//beta.adalab.es/resources/stylesheets/all.css"
-    />
+    <title>Buscador Anime</title>
     <link
       rel="stylesheet"
       href="./scss/main.scss"
     />
   </head>
-
   <body>
+    <header>
+      <h1>Buscador de Series Anime</h1>
+    </header>
+    <form>
+      <input
+        class="js-search-input"
+        type="text"
+        placeholder="Buscar por nombre..."
+      />
+      <button class="js-search-btn">Buscar</button>
+      <!-- <button>Reset</button> -->
+    </form>
+    <section class="js-favs-container"></section>
+    <section class="js-search-container"></section>
     <script src="./js/main.js"></script>
   </body>
 </html>
