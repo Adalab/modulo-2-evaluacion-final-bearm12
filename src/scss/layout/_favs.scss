@@ -1,0 +1,51 @@
+.sections {
+    display: flex;
+    gap: 10px;
+    margin: 10px;
+
+    &__fav {
+        min-width: 250px;
+        
+        &--title {
+            background-color: $color-favs;
+            border-radius: 5px 5px 0 0;
+            font-family: $font-main;
+            font-size: 20px;
+            color: black;
+            padding: 3px;
+            text-align: center;
+        }
+        &--container {
+            padding: 5px;
+            border: 1px solid $color-favs;
+        }
+    }
+}
+
+.favs__card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    height: 100px;
+    padding: 5px;
+
+    & img {
+        height: 100%;
+    }
+
+    & p {
+        color: $color-text;
+        font-family: $font-main;
+    }
+
+    & i {
+        color: $color-favs;
+        font-size: 20px;
+    }
+
+    & i:hover {
+        color: rgb(255, 39, 39);
+        cursor: pointer;
+    }
+}

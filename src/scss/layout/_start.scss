@@ -1,0 +1,33 @@
+.title {
+    font-family: $font-main;
+    font-size: 30px;
+    color: $color-text;
+    padding: 10px;
+}
+
+.form {
+    padding: 10px;
+
+    &__input {
+        background-color: $color-bg;
+        border: 2px solid $color-text;
+        padding: 5px;
+        border-radius: 5px;
+        width: 300px;
+    }
+
+    &__btn {
+        background-color: $color-btn-dark;
+        border: 2px solid $color-btn-light;
+        padding: 5px;
+        border-radius: 5px;
+        color: $color-text;
+        margin-left: 5px;
+    }
+
+    &__btn:hover {
+        background-color: $color-btn-light;
+        cursor: pointer;
+    }
+
+}

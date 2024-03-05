@@ -18,27 +18,28 @@
   </head>
   <body>
     <header>
-      <h1>Buscador de Series Anime</h1>
+      <h1 class="title">Buscador de Series Anime</h1>
     </header>
     <main>
-      <form>
+      <form class="form">
         <input
-          class="js-search-input"
+          class="js-search-input form__input"
           type="text"
           placeholder="Buscar por nombre..."
         />
-        <button class="js-search-btn">Buscar</button>
-        <!-- <button>Reset</button> -->
-        <!-- <i class="fa-regular fa-circle-xmark"></i> -->
+        <button class="js-search-btn form__btn">Buscar</button>
+        <button class="js-reset-btn form__btn">Reset</button>
       </form>
-      <section class="js-favs-section">
-        <h2>Animes Favoritos</h2>
-        <div class="js-favs-container"></div>
-      </section>
-      <section class="js-search-container">
-        <h2>Resultados</h2>
-        <div class="js-cards-container"></div>
-      </section>
+      <div class="sections">
+        <section class="js-favs-section sections__fav">
+          <h2 class="sections__fav--title">Animes Favoritos</h2>
+          <div class="js-favs-container sections__fav--container"></div>
+        </section>
+        <section class="js-search-section sections__results">
+          <h2 class="sections__results--title">Resultados</h2>
+          <div class="js-cards-container sections__results--container"></div>
+        </section>
+      </div>
     </main>
     <script src="./js/main.js"></script>
   </body>

@@ -3,13 +3,15 @@
 const searchInput = document.querySelector('.js-search-input');
 const searchButton = document.querySelector('.js-search-btn');
 const favSection = document.querySelector('.js-favs-section');
-const animeSection = document.querySelector('.js-search-container');
+const animeSection = document.querySelector('.js-search-section');
 const cardsContainer = document.querySelector('.js-cards-container');
 const favsContainer = document.querySelector('.js-favs-container')
 
 const URL_SERVER = `https://api.jikan.moe/v4/anime?q=`;
 const noImage = 'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png';
-const placeholderImage = 'https://via.placeholder.com/210x295/ffffff/666666/?text='
+const placeholderImage = 'https://via.placeholder.com/210x295/ffffff/666666/?text=';
+
+const favsLocalStorage = JSON.parse(localStorage.getItem('favorites'));
 
 let animesList = [];
 let animeFavList = [];
@@ -20,6 +22,7 @@ const renderFavoritesList = () => {
     for(const anime of animeFavList){
         const favContainer = document.createElement('div');
         favsContainer.appendChild(favContainer);
+        favContainer.classList.add('favs__card')
 
         const favImage = document.createElement('img');
         const favTilteEl = document.createElement('p');
@@ -28,8 +31,8 @@ const renderFavoritesList = () => {
 
         favContainer.appendChild(favImage);
         favImage.setAttribute('alt', anime.title)
-        if(anime.images.webp.samll_image_url !== noImage) {
-            favImage.setAttribute('src', anime.images.webp.small_image_url);
+        if(anime.images.webp.image_url !== noImage) {
+            favImage.setAttribute('src', anime.images.webp.image_url);
         } else {
             favImage.setAttribute('src', `${placeholderImage}${anime.title}`);   
         }
@@ -38,7 +41,13 @@ const renderFavoritesList = () => {
         favTilteEl.appendChild(favTitleContent);
         favContainer.appendChild(eliminateIcon);
         eliminateIcon.classList.add('fa-regular', 'fa-circle-xmark');
+ 
     }
+}
+
+if(favsLocalStorage !== null){
+    animeFavList = favsLocalStorage;
+    renderFavoritesList();
 }
 
 const handleFavorite = (event) => {
@@ -50,8 +59,10 @@ const handleFavorite = (event) => {
     if (favIndex === -1) {
         animeFavList.push(favAnime)
     }
-    console.log(animeFavList)
-    renderFavoritesList();    
+
+    renderFavoritesList(); 
+    
+    localStorage.setItem('favorites', JSON.stringify(animeFavList));
 }
 
 const renderAnimeList = () => {
@@ -61,7 +72,7 @@ const renderAnimeList = () => {
         const animeCard = document.createElement('div');
         cardsContainer.appendChild(animeCard);
         animeCard.setAttribute('id', anime.mal_id);
-        animeCard.classList.add('js-anime-card')
+        animeCard.classList.add('js-anime-card', 'result__cards')
 
         const animeImage = document.createElement('img');
         animeCard.appendChild(animeImage);
@@ -76,7 +87,7 @@ const renderAnimeList = () => {
         const animeTitleElement = document.createElement('p');
         const animeTitle = document.createTextNode(anime.title);
         animeCard.appendChild(animeTitleElement);
-        animeCard.appendChild(animeTitle);
+        animeTitleElement.appendChild(animeTitle);
     }
     
     const cards = document.querySelectorAll('.js-anime-card');
