@@ -21,6 +21,21 @@
             border: 1px solid $color-favs;
             min-height: 100px;
         }
+        &--btn {       
+            width: 100%;     
+            background-color: $color-btn-dark;
+            border: 2px solid $color-btn-light;
+            padding: 5px;
+            border-radius: 5px;
+            color: $color-text;
+            
+        }
+    
+        &--btn:hover {
+            background-color: $color-btn-light;
+            cursor: pointer;
+        }
+    
     }
 }
 

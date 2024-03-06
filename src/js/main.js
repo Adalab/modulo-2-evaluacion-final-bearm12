@@ -4,6 +4,7 @@ const form = document.querySelector(".js-form");
 const searchInput = document.querySelector(".js-search-input");
 const searchButton = document.querySelector(".js-search-btn");
 const resetButton = document.querySelector(".js-reset-btn");
+const favButton = document.querySelector(".js-delete-favs");
 const favSection = document.querySelector(".js-favs-section");
 const animeSection = document.querySelector(".js-search-section");
 const cardsContainer = document.querySelector(".js-cards-container");
@@ -24,7 +25,7 @@ const removeFavFromList = (clickedItem) => {
       const clickedFavIndex = animeFavList.findIndex((favItem) => parseInt(clickedItem.id) === favItem.mal_id);
 
       animeFavList.splice(clickedFavIndex, 1);
-      renderFavoritesList();
+      renderFavoritesList(animeFavList);
       if (animeFavList.length === 0) {
         localStorage.removeItem("favorites");
       } else {
@@ -67,7 +68,7 @@ const handleEliminateFav = (event) => {
   }
 };
 
-const renderFavoritesList = () => {
+const renderFavoritesList = (animeFavList) => {
   favsContainer.innerHTML = "";
 
   for (const anime of animeFavList) {
@@ -103,7 +104,7 @@ const renderFavoritesList = () => {
 
 if (favsLocalStorage !== null) {
   animeFavList = favsLocalStorage;
-  renderFavoritesList();
+  renderFavoritesList(animeFavList);
   favSection.classList.remove("hidden");
 }
 
@@ -120,7 +121,7 @@ const handleFavorite = (event) => {
     removeFavFromList(clickedCard);
   }
 
-  renderFavoritesList();
+  renderFavoritesList(animeFavList);
   if (animeFavList.length === 0) {
     localStorage.removeItem("favorites");
   } else {
@@ -189,3 +190,16 @@ const handleReset = (event) => {
 };
 
 resetButton.addEventListener("click", handleReset);
+
+const handleDeleteAllFavs = () => {
+  animeFavList = [];
+  renderFavoritesList(animeFavList);
+
+  const allResultCards = document.querySelectorAll(".js-anime-card");
+  for (const card of allResultCards) {
+    card.classList.remove("card__selected");
+  }
+  localStorage.removeItem("favorites");
+};
+
+favButton.addEventListener("click", handleDeleteAllFavs);
