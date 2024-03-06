@@ -15,29 +15,10 @@ const favsLocalStorage = JSON.parse(localStorage.getItem('favorites'));
 
 let animesList = [];
 let animeFavList = [];
+let favCardsCross = [];
 
 
-const handleEliminateFav = (event) => {
-    const clickedFavCross = event.currentTarget;
-    const clickedFav = clickedFavCross.parentNode;
-    console.log(animeFavList)
-    
-    for(const fav of animeFavList){
-            if(parseInt(clickedFav.id) === fav.mal_id){
-                const clickedFavIndex = animeFavList.findIndex(favItem => parseInt(clickedFav.id) === favItem.mal_id);
-                
-                animeFavList.splice(clickedFavIndex, 1);
-
-                console.log(animeFavList)
-            }    
-        }
-    }
-
-
-
-const renderFavoritesList = () => {
-    favsContainer.innerHTML = '';
-
+const renderFavsList = () => {
     for(const anime of animeFavList){
         const favContainer = document.createElement('div');
         favsContainer.appendChild(favContainer);
@@ -61,17 +42,47 @@ const renderFavoritesList = () => {
         favTilteEl.appendChild(favTitleContent);
         favContainer.appendChild(eliminateIcon);
         eliminateIcon.classList.add('fa-regular', 'fa-circle-xmark', 'js-fav-card');
-     }
-
-     const favCardsCross = document.querySelectorAll('.js-fav-card');
-     for(const favCardCross of favCardsCross){
-        favCardCross.addEventListener('click', handleEliminateFav);
-     }
+    }
 }
+
+const handleEliminateFav = (event) => {
+    const clickedFavCross = event.currentTarget;
+    const clickedFav = clickedFavCross.parentNode;
+    console.log(animeFavList)
+    
+    for(const fav of animeFavList){
+        if(parseInt(clickedFav.id) === fav.mal_id){
+            const clickedFavIndex = animeFavList.findIndex(favItem => parseInt(clickedFav.id) === favItem.mal_id);
+            
+            animeFavList.splice(clickedFavIndex, 1);
+
+            favsContainer.innerHTML = '';
+            renderFavsList();
+        }    
+    }
+}
+
+
+
+const generateFavoritesList = () => {
+    favsContainer.innerHTML = '';
+
+    renderFavsList();
+
+    const favCards = document.querySelectorAll('.js-fav-card');
+    console.log(favCards)
+    favCardsCross = favCards;
+    
+}
+console.log(favCardsCross)
+
+for(const favCardCross of favCardsCross){
+    favCardCross.addEventListener('click', handleEliminateFav);
+    }
 
 if(favsLocalStorage !== null){
     animeFavList = favsLocalStorage;
-    renderFavoritesList();
+    generateFavoritesList();
     favSection.classList.remove('hidden');
 }
 
@@ -86,7 +97,7 @@ const handleFavorite = (event) => {
         animeFavList.push(favAnime)
     }
 
-    renderFavoritesList(); 
+    generateFavoritesList(); 
     
     localStorage.setItem('favorites', JSON.stringify(animeFavList));
 }
