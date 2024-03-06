@@ -25,17 +25,31 @@ const removeFavFromList = (clickedItem) => {
 
       animeFavList.splice(clickedFavIndex, 1);
       renderFavoritesList();
-
-      localStorage.setItem("favorites", JSON.stringify(animeFavList));
+      if (animeFavList.length === 0) {
+        localStorage.removeItem("favorites");
+      } else {
+        localStorage.setItem("favorites", JSON.stringify(animeFavList));
+      }
     }
   }
 };
 
-const checkIfFav = (click) => {
+const checkIfFav = (item, group) => {
+  for (const card of group) {
+    if (item.id === card.id) {
+      card.classList.toggle("card__selected");
+    }
+  }
+};
+
+const checkFavInResults = () => {
+  const allFavorites = document.querySelectorAll(".js-fav-card");
   const allResultCards = document.querySelectorAll(".js-anime-card");
-  for (const card of allResultCards) {
-    if (click.id === card.id) {
-      card.classList.remove("card__selected");
+  for (const favCard of allFavorites) {
+    for (const resultCard of allResultCards) {
+      if (favCard.id === resultCard.id) {
+        resultCard.classList.add("card__selected");
+      }
     }
   }
 };
@@ -43,9 +57,10 @@ const checkIfFav = (click) => {
 const handleEliminateFav = (event) => {
   const clickedFavCross = event.currentTarget;
   const clickedFav = clickedFavCross.parentNode;
+  const allResultCards = document.querySelectorAll(".js-anime-card");
 
   removeFavFromList(clickedFav);
-  checkIfFav(clickedFav);
+  checkIfFav(clickedFav, allResultCards);
 
   if (animeFavList.length === 0) {
     localStorage.removeItem("favorites");
@@ -58,7 +73,7 @@ const renderFavoritesList = () => {
   for (const anime of animeFavList) {
     const favContainer = document.createElement("div");
     favsContainer.appendChild(favContainer);
-    favContainer.classList.add("favs__card");
+    favContainer.classList.add("favs__card", "js-fav-card");
     favContainer.setAttribute("id", anime.mal_id);
 
     const favImage = document.createElement("img");
@@ -106,8 +121,11 @@ const handleFavorite = (event) => {
   }
 
   renderFavoritesList();
-
-  localStorage.setItem("favorites", JSON.stringify(animeFavList));
+  if (animeFavList.length === 0) {
+    localStorage.removeItem("favorites");
+  } else {
+    localStorage.setItem("favorites", JSON.stringify(animeFavList));
+  }
 };
 
 const renderAnimeList = () => {
@@ -136,6 +154,8 @@ const renderAnimeList = () => {
   }
   animeSection.classList.remove("hidden");
   favSection.classList.remove("hidden");
+
+  checkFavInResults();
 
   const cards = document.querySelectorAll(".js-anime-card");
   for (const card of cards) {
