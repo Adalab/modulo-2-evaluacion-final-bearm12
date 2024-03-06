@@ -1,7 +1,9 @@
 "use strict";
 
+const form = document.querySelector(".js-form");
 const searchInput = document.querySelector(".js-search-input");
 const searchButton = document.querySelector(".js-search-btn");
+const resetButton = document.querySelector(".js-reset-btn");
 const favSection = document.querySelector(".js-favs-section");
 const animeSection = document.querySelector(".js-search-section");
 const cardsContainer = document.querySelector(".js-cards-container");
@@ -16,20 +18,35 @@ const favsLocalStorage = JSON.parse(localStorage.getItem("favorites"));
 let animesList = [];
 let animeFavList = [];
 
+// const removeFavFromList = (clickedItem) => {
+//   for (const fav of animeFavList) {
+//     if (parseInt(clickedItem.id) === fav.mal_id) {
+//       const clickedFavIndex = animeFavList.findIndex((favItem) => parseInt(clickedItem.id) === favItem.mal_id);
+
+//       animeFavList.splice(clickedFavIndex, 1);
+//       renderFavoritesList();
+
+//       localStorage.setItem("favorites", JSON.stringify(animeFavList));
+//     }
+//   }
+// };
+
+const checkIfFav = (click) => {
+  for (const card of animesList) {
+    console.log(click.id);
+    console.log(card.mal_id);
+
+    if (click.id === card.mal_id) {
+    }
+  }
+};
+
 const handleEliminateFav = (event) => {
   const clickedFavCross = event.currentTarget;
   const clickedFav = clickedFavCross.parentNode;
 
-  for (const fav of animeFavList) {
-    if (parseInt(clickedFav.id) === fav.mal_id) {
-      const clickedFavIndex = animeFavList.findIndex((favItem) => parseInt(clickedFav.id) === favItem.mal_id);
-
-      animeFavList.splice(clickedFavIndex, 1);
-      renderFavoritesList();
-
-      localStorage.setItem("favorites", JSON.stringify(animeFavList));
-    }
-  }
+  removeFavFromList(clickedFav);
+  //   checkIfFav(clickedFav);
 };
 
 const renderFavoritesList = () => {
@@ -81,6 +98,8 @@ const handleFavorite = (event) => {
 
   if (favIndex === -1) {
     animeFavList.push(favAnime);
+  } else {
+    removeFavFromList(clickedCard);
   }
 
   renderFavoritesList();
@@ -135,3 +154,15 @@ const handleSearch = (event) => {
 };
 
 searchButton.addEventListener("click", handleSearch);
+
+const handleReset = (event) => {
+  event.preventDefault();
+  form.reset();
+  cardsContainer.innerHTML = "";
+  favsContainer.innerHTML = "";
+  favSection.classList.add("hidden");
+  animeSection.classList.add("hidden");
+  localStorage.removeItem("favorites");
+};
+
+resetButton.addEventListener("click", handleReset);
