@@ -16,13 +16,33 @@ const favsLocalStorage = JSON.parse(localStorage.getItem('favorites'));
 let animesList = [];
 let animeFavList = [];
 
+
+const handleEliminateFav = (event) => {
+    const clickedFavCross = event.currentTarget;
+    const clickedFav = clickedFavCross.parentNode;
+    console.log(animeFavList)
+    
+    for(const fav of animeFavList){
+            if(parseInt(clickedFav.id) === fav.mal_id){
+                const clickedFavIndex = animeFavList.findIndex(favItem => parseInt(clickedFav.id) === favItem.mal_id);
+                
+                animeFavList.splice(clickedFavIndex, 1);
+
+                console.log(animeFavList)
+            }    
+        }
+    }
+
+
+
 const renderFavoritesList = () => {
     favsContainer.innerHTML = '';
 
     for(const anime of animeFavList){
         const favContainer = document.createElement('div');
         favsContainer.appendChild(favContainer);
-        favContainer.classList.add('favs__card')
+        favContainer.classList.add('favs__card');
+        favContainer.setAttribute('id', anime.mal_id);
 
         const favImage = document.createElement('img');
         const favTilteEl = document.createElement('p');
@@ -40,18 +60,24 @@ const renderFavoritesList = () => {
         favContainer.appendChild(favTilteEl);
         favTilteEl.appendChild(favTitleContent);
         favContainer.appendChild(eliminateIcon);
-        eliminateIcon.classList.add('fa-regular', 'fa-circle-xmark');
- 
-    }
+        eliminateIcon.classList.add('fa-regular', 'fa-circle-xmark', 'js-fav-card');
+     }
+
+     const favCardsCross = document.querySelectorAll('.js-fav-card');
+     for(const favCardCross of favCardsCross){
+        favCardCross.addEventListener('click', handleEliminateFav);
+     }
 }
 
 if(favsLocalStorage !== null){
     animeFavList = favsLocalStorage;
     renderFavoritesList();
+    favSection.classList.remove('hidden');
 }
 
 const handleFavorite = (event) => {
     const clickedCard = event.currentTarget;
+    clickedCard.classList.toggle('card__selected');
     
     const favAnime = animesList.find(anime => parseInt(clickedCard.id) === anime.mal_id);
     const favIndex = animeFavList.findIndex(favItem => parseInt(clickedCard.id) === favItem.mal_id);
@@ -67,6 +93,7 @@ const handleFavorite = (event) => {
 
 const renderAnimeList = () => {
     cardsContainer.innerHTML = '';
+    
     
     for(const anime of animesList){
         const animeCard = document.createElement('div');
@@ -89,7 +116,9 @@ const renderAnimeList = () => {
         animeCard.appendChild(animeTitleElement);
         animeTitleElement.appendChild(animeTitle);
     }
-    
+    animeSection.classList.remove('hidden');
+    favSection.classList.remove('hidden');
+
     const cards = document.querySelectorAll('.js-anime-card');
     for(const card of cards) {
         card.addEventListener('click', handleFavorite);
